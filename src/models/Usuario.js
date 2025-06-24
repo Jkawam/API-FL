@@ -1,10 +1,16 @@
 // src/models/Usuario.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize'); // <- Caminho correto para 'src/config/sequelize.js'
+const sequelize = require('../config/sequelise.js');
+const db = {} // <- Caminho correto para 'src/config/sequelize.js'
 const bcrypt = require('bcryptjs'); // Importe o bcryptjs
+const Usuario = sequelize.define('Usuario', 
 
-const Usuario = sequelize.define('Usuario', {
+  
+    
+    {
+
+
 id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -34,6 +40,7 @@ password: {
 tableName: 'usuarios',
   timestamps: true, // cria created_at e updated_at automaticamente
   underscored: true // faz os campos ficarem como snake_case no banco
+    // Adiciona o campo slug
 });
 
 // --- Hook para hashing da senha antes de salvar ---
