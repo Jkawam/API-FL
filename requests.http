@@ -1,0 +1,42 @@
+### Register User - Sucesso
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+"firstname": "Primeiro",
+"surname": "Teste",
+"email": "iarlei.teste@example.com",
+"password": "umaaaSenhaBemForte123!"
+}
+
+### Register User - Email Duplicado
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+"firstname": "Segundo",
+"surname": "Teste",
+"email": "kawam.teste@example.com",
+"password": "outraSenha123"
+}
+
+### Register User - Campos Faltando
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+"firstname": "Terceiro",
+"email": "terceiro.teste@example.com"
+  // password e surname estão faltando
+}
+
+### Register User - Senha Curta
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+    "firstname": "Quarto",
+    "surname": "Teste",
+    "email": "quarto.teste@example.com",
+    "password": "abc"
+}
