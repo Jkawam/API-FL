@@ -6,8 +6,8 @@ API RESTful com Node.js, Express, Sequelize e MySQL. Inclui autenticação JWT e
 
 ## ✅ Seção 01 - Implementar o banco de dados da aplicação
 
-- [ ] Requisito 01 - Criar a tabela de usuários  
-- [ ] Requisito 02 - Criar a tabela de categorias  
+- [x] Requisito 01 - Criar a tabela de usuários  
+- [x] Requisito 02 - Criar a tabela de categorias  
 - [ ] Requisito 03 - Criar a tabela de produtos  
 - [ ] Requisito 04 - Criar a tabela de imagens do produto  
 - [ ] Requisito 05 - Criar a tabela de opções do produto  
