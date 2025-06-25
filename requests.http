@@ -5,7 +5,7 @@ Content-Type: application/json
 {
 "firstname": "Primeiro",
 "surname": "Teste",
-"email": "iarlei.teste@example.com",
+"email": "deucerto.teste@example.com",
 "password": "umaaaSenhaBemForte123!"
 }
 
@@ -39,4 +39,55 @@ Content-Type: application/json
     "surname": "Teste",
     "email": "quarto.teste@example.com",
     "password": "abc"
+}
+
+
+//______________________________________________________________________________________________//
+
+
+### Cadastrar Categoria - Sucesso
+POST http://localhost:3000/api/auth/categories
+Content-Type: application/json
+
+{
+  "name": "camisas",
+  "slug": "eletronicos",
+  "use_in_menu": true
+}
+
+### Cadastrar Categoria - Outro Sucesso (use_in_menu padrão)
+POST http://localhost:3000/api/auth/categories
+Content-Type: application/json
+
+{
+  "name": "Informática",
+  "slug": "informatica"
+}
+
+### Cadastrar Categoria - Nome Duplicado
+POST http://localhost:3000/api/auth/categories
+Content-Type: application/json
+
+{
+  "name": "Eletrônicos",
+  "slug": "eletronicos-dois",
+  "use_in_menu": false
+}
+
+### Cadastrar Categoria - Slug Duplicado
+POST http://localhost:3000/api/auth/categories
+Content-Type: application/json
+
+{
+  "name": "Móveis",
+  "slug": "eletronicos"
+}
+
+### Cadastrar Categoria - Campo Obrigatório Faltando (name)
+POST http://localhost:3000/api/auth/categories
+Content-Type: application/json
+
+{
+  "slug": "sem-nome",
+  "use_in_menu": true
 }

@@ -1,26 +1,32 @@
 const { DataTypes } = require('sequelize');
+const sequelize = require('../config/sequelize');
 
-module.exports = (sequelize) => {
-  return sequelize.define('Category', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    slug: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    use_in_menu: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-  }, {
-    tableName: 'categories',
-    timestamps: true,
-  });
-};
+const Category = sequelize.define('Category', { 
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  slug: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  use_in_menu: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    defaultValue: false,
+  },
+}, {
+  tableName: 'categorias', 
+  timestamps: true,
+  underscored: true,
+});
+
+module.exports = Category;
