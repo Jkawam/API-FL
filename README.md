@@ -26,11 +26,11 @@ API RESTful com Node.js, Express, Sequelize e MySQL. Inclui autenticação JWT e
 
 ## 🗂️ Seção 03 - CRUD de categorias
 
-- [ ] Requisito 01 - Criar endpoint para obter uma lista de categorias  
-- [ ] Requisito 02 - Criar endpoint para obter informações da categoria pelo ID  
-- [ ] Requisito 03 - Criar endpoint de cadastro de categoria  
-- [ ] Requisito 04 - Criar endpoint de atualização de categoria  
-- [ ] Requisito 05 - Criar endpoint de deletar categoria  
+- [x] Requisito 01 - Criar endpoint para obter uma lista de categorias  
+- [x] Requisito 02 - Criar endpoint para obter informações da categoria pelo ID  
+- [x] Requisito 03 - Criar endpoint de cadastro de categoria  
+- [x] Requisito 04 - Criar endpoint de atualização de categoria  
+- [x] Requisito 05 - Criar endpoint de deletar categoria  
 
 ---
 
