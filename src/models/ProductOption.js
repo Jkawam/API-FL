@@ -46,7 +46,7 @@ const ProductOption = sequelize.define('ProductOption', {
       return rawValue ? rawValue.split(',') : [];
     },
     set(value) {
-     
+    
       this.setDataValue('values', Array.isArray(value) ? value.join(',') : value);
     },
   },
