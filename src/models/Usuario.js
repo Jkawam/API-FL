@@ -1,56 +1,56 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/sequelize');
-const bcrypt = require('bcryptjs');  
+const sequelize = require('../config/sequelize.js');
+const bcrypt = require('bcryptjs');
 
 const Usuario = sequelize.define('Usuario', {
-id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-},
-firstname: {
-    type: DataTypes.STRING,
-    allowNull: false
-},
-surname: {
-    type: DataTypes.STRING,
-    allowNull: false
-},
-email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-    isEmail: true
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    firstname: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    surname: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true
+        }
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
     }
-},
-password: {
-    type: DataTypes.STRING,
-    allowNull: false
-}
 }, {
-tableName: 'usuarios',
-    timestamps: true, 
-    underscored: true 
+    tableName: 'usuarios',
+    timestamps: true,
+    underscored: true,
+    hooks: {
+        beforeCreate: async (user) => {
+            if (user.password) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(user.password, salt);
+            }
+        },
+        beforeUpdate: async (user) => {
+            if (user.password && user.changed('password')) {
+                const salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(user.password, salt);
+            }
+        }
+    }
 });
 
-// --- Hook para hashing da senha antes de salvar ---
-Usuario.beforeCreate(async (usuario) => {
-  const salt = await bcrypt.genSalt(10); // Gera um salt com custo 10
-  usuario.password = await bcrypt.hash(usuario.password, salt); // Faz o hash da senha
-});
-
-// Hook para hashing da senha antes de atualizar (se a senha for modificada)
-Usuario.beforeUpdate(async (usuario) => {
-  if (usuario.changed('password')) { // Só faz o hash se a senha foi modificada
-    const salt = await bcrypt.genSalt(10);
-    usuario.password = await bcrypt.hash(usuario.password, salt);
-}
-});
-
-// Método para comparar a senha fornecida com o hash armazenado
+// ADIÇÃO IMPORTANTE: Método para comparar a senha fornecida com a senha armazenada
 Usuario.prototype.validPassword = async function(password) {
-return await bcrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password);
 };
 
 module.exports = Usuario;
