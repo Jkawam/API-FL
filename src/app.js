@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
-
+const validateToken = require('./middlewares/validateToken');
 // Middlewares
 app.use(express.json()); // Permite que o Express leia JSON do corpo da requisição
 
@@ -11,6 +11,18 @@ const userRoutes = require('./routes/userRoutes'); // Rotas de usuário (como o 
 const errorHandler = require('./middlewares/errorHandler'); // Middleware de tratamento de erros
 
 // --- Rotas da API ---
+// Protege todos os métodos POST, PUT e DELETE (exceto /api/v1/auth/token ou login)
+app.use((req, res, next) => {
+    const protectedMethods = ['POST', 'PUT', 'DELETE'];
+    const isAuthRoute = req.path.startsWith('/api/v1/auth'); //permissão login/registro
+
+    if (protectedMethods.includes(req.method) && !isAuthRoute) {
+        return validateToken(req, res, next);
+    }
+
+    next();
+});
+
 // Usa as rotas de autenticação sob o prefixo '/api/v1/auth'
 app.use('/api/v1/auth', authRoutes);
 
@@ -25,3 +37,5 @@ app.get('/api/v1', (req, res) => {
 
 
 app.use(errorHandler);
+
+module.exports = app;

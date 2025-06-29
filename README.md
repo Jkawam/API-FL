@@ -46,5 +46,5 @@ API RESTful com Node.js, Express, Sequelize e MySQL. Inclui autenticação JWT e
 
 ## 🔐 Seção 05 - Implementar e validar token JWT
 
-- [ ] Requisito 01 - Criar endpoint de geração do token JWT  
-- [ ] Requisito 02 - Validar token nos métodos POST, PUT e DELETE  
+- [x] Requisito 01 - Criar endpoint de geração do token JWT  
+- [x] Requisito 02 - Validar token nos métodos POST, PUT e DELETE  
