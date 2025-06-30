@@ -1,3 +1,4 @@
+
 /**
  * Middleware de tratamento de erros global para a API.
  * Captura erros que ocorrem nas rotas e envia uma resposta JSON padronizada.

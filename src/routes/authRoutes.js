@@ -1,90 +1,69 @@
-// src/routes/authRoutes.js
 const express = require('express');
 const router = express.Router();
-const Usuario = require('../models/Usuario');
-const jwt = require('jsonwebtoken');
-// const Categoria = require('../models/Category'); // REMOVA ESTA LINHA se mover a rota de categoria
+const Usuario = require('../models/Usuario'); // Importa o modelo de Usuário
+const jwt = require('jsonwebtoken'); // Importa o jsonwebtoken
+// const Categoria = require('../models/Category'); // REMOVIDO: Não é mais necessário importar Categoria aqui
 
+// Obtenha o SECRET do JWT do .env
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
     console.error('ERRO: JWT_SECRET não definido no .env!');
-    process.exit(1);
+    // Em um ambiente de produção, você pode querer lançar um erro ou ter um comportamento mais robusto aqui.
+    // process.exit(1); // Encerra a aplicação se a variável secreta não estiver definida
+    // Para desenvolvimento, um console.error pode ser suficiente, mas é crucial para produção.
 }
 
-// Rota de Registro de Usuário
+// REMOVIDA: A rota de registro foi movida para userRoutes.js
+/*
 router.post('/register', async (req, res) => {
-    const { firstname, surname, email, password } = req.body;
-
-    if (!firstname || !surname || !email || !password) {
-        return res.status(400).json({ message: 'Todos os campos são obrigatórios!' });
-    }
-
-    if (password.length < 6) {
-        return res.status(400).json({ message: 'A senha deve ter no mínimo 6 caracteres.' });
-    }
-
-    try {
-        const existingUser = await Usuario.findOne({ where: { email } });
-        if (existingUser) {
-            return res.status(409).json({ message: 'Este e-mail já está cadastrado.' });
-        }
-
-        const newUser = await Usuario.create({
-            firstname,
-            surname,
-            email,
-            password
-        });
-
-        const userResponse = {
-            id: newUser.id,
-            firstname: newUser.firstname,
-            surname: newUser.surname,
-            email: newUser.email,
-            created_at: newUser.created_at
-        };
-
-        return res.status(201).json({ message: 'Usuário registrado com sucesso!', user: userResponse });
-
-    } catch (error) {
-        console.error('Erro ao registrar usuário:', error);
-        if (error.name === 'SequelizeValidationError') {
-            return res.status(400).json({ message: error.message });
-        }
-        return res.status(500).json({ message: 'Erro interno do servidor ao registrar usuário.' });
-    }
+    // A lógica de registro agora está em src/controllers/userController.js
+    // e é acessada via POST /api/v1/users
 });
+*/
 
 // Rota de Login de Usuário
-router.post('/login', async (req, res) => {
+// POST /api/v1/auth/login
+router.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
 
+    // Validação de campos obrigatórios
     if (!email || !password) {
-        return res.status(400).json({ message: 'E-mail e senha são obrigatórios.' });
+        const error = new Error('E-mail e senha são obrigatórios.');
+        error.statusCode = 400;
+        return next(error); // Passa o erro para o errorHandler
     }
 
     try {
         const user = await Usuario.findOne({ where: { email } });
 
+        // Verifica se o usuário existe
         if (!user) {
-            return res.status(401).json({ message: 'Credenciais inválidas.' });
+            const error = new Error('Credenciais inválidas.');
+            error.statusCode = 401; // Unauthorized
+            return next(error);
         }
 
-        // AGORA FUNCIONARÁ devido à adição no modelo Usuario.js
+        // Verifica se a senha está correta usando o método validPassword do modelo
+        // (Certifique-se de que este método está implementado em src/models/Usuario.js)
         const isPasswordValid = await user.validPassword(password);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Credenciais inválidas.' });
+            const error = new Error('Credenciais inválidas.');
+            error.statusCode = 401; // Unauthorized
+            return next(error);
         }
 
+        // Prepara o payload para o token JWT
         const tokenPayload = {
             id: user.id,
             email: user.email,
             firstname: user.firstname
         };
 
-        const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '1h' });
+        // Gera o token JWT
+        const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
 
+        // Prepara a resposta do usuário (sem a senha)
         const userResponse = {
             id: user.id,
             firstname: user.firstname,
@@ -92,6 +71,7 @@ router.post('/login', async (req, res) => {
             email: user.email,
         };
 
+        // Retorna a mensagem de sucesso, dados do usuário e o token
         return res.status(200).json({
             message: 'Login bem-sucedido!',
             user: userResponse,
@@ -99,11 +79,17 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Erro ao fazer login:', error);
-        return res.status(500).json({ message: 'Erro interno do servidor ao fazer login.' });
+        // Qualquer outro erro inesperado é passado para o errorHandler
+        next(error);
     }
 });
 
-// REMOVA A ROTA DE CATEGORIAS DAQUI E CRIE UM ARQUIVO categoryRoutes.js PARA ELA
+// REMOVIDA: A rota de cadastro de categoria foi movida para categoryRoutes.js
+/*
+router.post('/categories', async (req, res, next) => {
+    // A lógica de cadastro de categoria agora está em src/controllers/categoryController.js
+    // e é acessada via POST /api/v1/categories
+});
+*/
 
 module.exports = router;
