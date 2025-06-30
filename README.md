@@ -1,6 +1,7 @@
 # 📦 Projeto API de Produtos da Digital store
 
 API RESTful com Node.js, Express, Sequelize e MySQL. Inclui autenticação JWT e segue arquitetura MVC.
+
 INTEGRANTES: Antônio Mathyas Santos da Silva, Iarlei Ferreira de Barros e Nirla Maria dos Santos
 
 ---
