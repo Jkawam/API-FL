@@ -38,11 +38,11 @@ INTEGRANTES: Antônio Mathyas Santos da Silva, Iarlei Ferreira de Barros e Nirla
 
 ## 🛍️ Seção 04 - CRUD de produtos
 
-- [ ] Requisito 01 - Criar endpoint para obter uma lista de produtos  
-- [ ] Requisito 02 - Criar endpoint para obter informações do produto pelo ID  
-- [ ] Requisito 03 - Criar endpoint de criação de produto  
-- [ ] Requisito 04 - Criar endpoint de atualização de produto  
-- [ ] Requisito 05 - Criar endpoint de exclusão de produto  
+- [x] Requisito 01 - Criar endpoint para obter uma lista de produtos  
+- [x] Requisito 02 - Criar endpoint para obter informações do produto pelo ID  
+- [x] Requisito 03 - Criar endpoint de criação de produto  
+- [x] Requisito 04 - Criar endpoint de atualização de produto  
+- [x] Requisito 05 - Criar endpoint de exclusão de produto  
 
 ---
 
