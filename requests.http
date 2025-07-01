@@ -1,62 +1,88 @@
 ### Register User - Sucesso
-POST http://localhost:3000/api/auth/register
+POST http://localhost:3000/api/v1/user
 Content-Type: application/json
 
 {
-"firstname": "Primeiro",
-"surname": "Teste",
-"email": "deucerto.teste@example.com",
-"password": "umaaaSenhaBemForte123!"
+  "firstname": "Primeiro",
+  "surname": "Teste",
+  "email": "deucerto.teste@example.com",
+  "password": "umaaaSenhaBemForte123!",
+  "confirmPassword": "umaaaSenhaBemForte123!"
 }
 
 ### Register User - Email Duplicado
-POST http://localhost:3000/api/auth/register
+POST http://localhost:3000/api/v1/user
 Content-Type: application/json
 
 {
-"firstname": "Segundo",
-"surname": "Teste",
-"email": "kawam.teste@example.com",
-"password": "outraSenha123"
+  "firstname": "Segundo",
+  "surname": "Teste",
+  "email": "deucerto.teste@example.com",
+  "password": "outraSenha123",
+  "confirmPassword": "outraSenha123"
 }
 
 ### Register User - Campos Faltando
-POST http://localhost:3000/api/auth/register
+POST http://localhost:3000/api/v1/user
 Content-Type: application/json
 
 {
-"firstname": "Terceiro",
-"email": "terceiro.teste@example.com"
-  // password e surname estão faltando
+  "firstname": "Terceiro",
+  "email": "terceiro.teste@example.com",
+  "password": "senha",
+  "confirmPassword": "senha"
+  // surname está faltando
 }
 
 ### Register User - Senha Curta
-POST http://localhost:3000/api/auth/register
+POST http://localhost:3000/api/v1/user
 Content-Type: application/json
 
 {
-    "firstname": "Quarto",
-    "surname": "Teste",
-    "email": "quarto.teste@example.com",
-    "password": "abc"
+  "firstname": "Quarto",
+  "surname": "Teste",
+  "email": "quarto.teste@example.com",
+  "password": "abc",
+  "confirmPassword": "abc"
 }
 
 
 //______________________________________________________________________________________________//
 
 
-### Cadastrar Categoria - Sucesso
-POST http://localhost:3000/api/auth/categories
+### Fazer Login - Sucesso
+POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "name": "camisas",
-  "slug": "eletronicos",
+  "email": "deucerto.teste@example.com",  
+  "password": "umaaaSenhaBemForte123!" 
+}
+
+### Fazer Login - Credenciais Inválidas
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "usuario.inexistente@example.com",
+  "password": "senhaerrada"
+}
+
+//______________________________________________________________________________________________//
+
+
+### Cadastrar Categoria - Sucesso
+POST http://localhost:3000/api/v1/categories
+Content-Type: application/json
+
+{
+  "name": "Camisas",
+  "slug": "camisas",
   "use_in_menu": true
 }
 
 ### Cadastrar Categoria - Outro Sucesso (use_in_menu padrão)
-POST http://localhost:3000/api/auth/categories
+POST http://localhost:3000/api/v1/categories
 Content-Type: application/json
 
 {
@@ -65,29 +91,196 @@ Content-Type: application/json
 }
 
 ### Cadastrar Categoria - Nome Duplicado
-POST http://localhost:3000/api/auth/categories
+POST http://localhost:3000/api/v1/categories
 Content-Type: application/json
 
 {
-  "name": "Eletrônicos",
-  "slug": "eletronicos-dois",
+  "name": "Camisas",
+  "slug": "camisas-dois",
   "use_in_menu": false
 }
 
 ### Cadastrar Categoria - Slug Duplicado
-POST http://localhost:3000/api/auth/categories
+POST http://localhost:3000/api/v1/categories
 Content-Type: application/json
 
 {
   "name": "Móveis",
-  "slug": "eletronicos"
+  "slug": "camisas"
 }
 
 ### Cadastrar Categoria - Campo Obrigatório Faltando (name)
-POST http://localhost:3000/api/auth/categories
+POST http://localhost:3000/api/v1/categories
 Content-Type: application/json
 
 {
   "slug": "sem-nome",
   "use_in_menu": true
 }
+
+//______________________________________________________________________________________________//
+
+### Listar Produtos - GET /api/v1/product/search
+GET http://localhost:3000/api/v1/product/search
+Content-Type: application/json
+
+//______________________________________________________________________________________________//
+
+### Obter Produto por ID - GET /api/v1/product/:id
+GET http://localhost:3000/api/v1/product/1
+Content-Type: application/json
+
+### Obter Produto por ID - Não Encontrado (mude o ID para um que não existe)
+GET http://localhost:3000/api/v1/product/9999
+Content-Type: application/json
+
+//______________________________________________________________________________________________//
+
+### Criar Produto - POST /api/v1/product
+POST http://localhost:3000/api/v1/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJkZXVjZXJ0by50ZXN0ZUBleGFtcGxlLmNvbSIsImZpcnN0bmFtZSI6IlByaW1laXJvIiwiaWF0IjoxNzUxMzI3NjE3LCJleHAiOjE3NTEzMzEyMTd9.y5oULRX_j88jppIKQfQx2bZh-Gi1T0NN_7-u3OdDq8Q
+
+{
+  "enabled": true,
+  "name": "Smartphone x",
+  "slug": "smartphone-x",
+  "stock": 100,
+  "description": "Um smartphone de última geração com câmera incrível.",
+  "price": 2500.00,
+  "price_with_discount": 2300.00,
+  "category_ids": [1], 
+  "images": [
+    {
+      "content": "http://example.com/images/phone-x-front.png",
+      "type": "image/png"
+    },
+    {
+      "content": "http://example.com/images/phone-x-back.jpg",
+      "type": "image/jpeg"
+    }
+  ],
+  "options": [
+    {
+      "title": "Cor",
+      "shape": "square",
+      "radius": "0px",
+      "type": "color",
+      "values": ["#000000", "#FFFFFF", "#FF0000"]
+    },
+    {
+      "title": "Armazenamento",
+      "shape": "circle",
+      "radius": "50%",
+      "type": "text",
+      "values": ["64GB", "128GB", "256GB"]
+    }
+  ]
+}
+
+### Criar Produto - Erro: Slug Duplicado
+POST http://localhost:3000/api/v1/product
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_COPIADO_AQUI # <-- SUBSTITUA POR UM TOKEN VÁLIDO!
+
+{
+  "name": "Smartphone X (Duplicado)",
+  "slug": "smartphone-x", 
+  "price": 1000.00,
+  "price_with_discount": 900.00,
+  "category_ids": [1]
+}
+
+### Criar Produto - Erro: Campos Obrigatórios Faltando
+POST http://localhost:3000/api/v1/product
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_COPIADO_AQUI # <-- SUBSTITUA POR UM TOKEN VÁLIDO!
+
+{
+  "name": "Produto Sem Preço",
+  "slug": "produto-sem-preco",
+  "category_ids": [1]
+  // Preço e Preço com Desconto estão faltando
+}
+
+### Criar Produto - Erro: Categoria Inexistente
+POST http://localhost:3000/api/v1/product
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_COPIADO_AQUI # <-- SUBSTITUA POR UM TOKEN VÁLIDO!
+
+{
+  "name": "Produto Com Categoria Invalida",
+  "slug": "produto-cat-invalida",
+  "price": 100.00,
+  "price_with_discount": 90.00,
+  "category_ids": [999]
+}
+
+
+//______________________________________________________________________________________________//
+
+### Atualizar Produto - PUT /api/v1/product/4 # <--- SUBSTITUA '4' PELO ID DO PRODUTO QUE VOCÊ CRIOU!
+PUT http://localhost:3000/api/v1/product/4 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJkZXVjZXJ0by50ZXN0ZUBleGFtcGxlLmNvbSIsImZpcnN0bmFtZSI6IlByaW1laXJvIiwiaWF0IjoxNzUxMzMwNjgwLCJleHAiOjE3NTEzMzQyODB9.YeGtfTNeXqU-rHZBFDmLdgN5C1YIvQFmtW-yEYI0UqQ
+
+{
+  "name": "Smartphone X PRO",
+  "slug": "smartphone-x-pro",
+  "price": 2700.00,
+  "price_with_discount": 2500.00,
+  "description": "Versão PRO do smartphone X, com mais recursos e bateria aprimorada.",
+  "stock": 90,
+  "enabled": true,
+  "category_ids": [1],
+
+  "images": [
+    {
+      "id": 1,
+      "content": "http://example.com/images/phone-x-pro-front.png",
+      "type": "image/png"
+    },
+    {
+      "id": 2,
+      "deleted": true
+    },
+    {
+      "content": "http://example.com/images/phone-x-pro-side.png",
+      "type": "image/png"
+    }
+  ],
+
+  "options": [
+    {
+      "id": 1,
+      "title": "Cor (Atualizado)",
+      "shape": "square",
+      "radius": "2px",
+      "type": "color",
+      "values": ["#FF0000", "#00FF00", "#0000FF"]
+    },
+    {
+      "id": 2,
+      "deleted": true
+    },
+    {
+      "title": "RAM",
+      "shape": "circle",
+      "type": "text",
+      "values": ["8GB", "16GB"]
+    }
+  ]
+}
+
+//______________________________________________________________________________________________//
+
+
+### Deletar Produto - DELETE /api/v1/product/:id
+DELETE http://localhost:3000/api/v1/product/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJkZXVjZXJ0by50ZXN0ZUBleGFtcGxlLmNvbSIsImZpcnN0bmFtZSI6IlByaW1laXJvIiwiaWF0IjoxNzUxMzMwNjgwLCJleHAiOjE3NTEzMzQyODB9.YeGtfTNeXqU-rHZBFDmLdgN5C1YIvQFmtW-yEYI0UqQ
+
+
+DELETE http://localhost:3000/api/v1/product/9999
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_COPIADO_AQUI # <--- OBRIGATÓRIO! Obtenha um token fresco!

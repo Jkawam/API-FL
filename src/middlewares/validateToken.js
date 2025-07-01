@@ -11,7 +11,7 @@ function validateToken(req, res, next) {
 
     try {
         const decoded = verificarToken(token);
-        req.user = decoded; // <-- id e emails do user autenticado
+        req.user = decoded; 
         next();
     } catch (erro) {
         return res.status(400).json ({mensagem: 'Token inválido ou expirado' });

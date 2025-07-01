@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const secret = 'sua_chave_secreta_aqui'; // FAZER UMA SENHA SEGURA E SUBSTITUIR NO .env
+const secret = 'sua_chave_secreta_aqui'; 
 
 function gerarToken(payload) {
     return jwt.sign(payload, secret, { expiresIn: '1h'});

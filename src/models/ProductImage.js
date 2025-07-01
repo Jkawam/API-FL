@@ -1,26 +1,48 @@
 const { DataTypes } = require('sequelize');
+const sequelize = require('../config/sequelize');
+const Product = require('./Product'); 
 
-module.exports = (sequelize) => {
-  return sequelize.define('ProductImage', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+const ProductImage = sequelize.define('ProductImage', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
+  product_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Product, 
+      key: 'id',
     },
-    product_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    enabled: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    path: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  }, {
-    tableName: 'product_images',
-    timestamps: true,
-  });
-};
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
+  },
+  content: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  type: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+}, {
+  tableName: 'imagens_produto',
+  timestamps: true,
+  underscored: true,
+});
+
+
+ProductImage.belongsTo(Product, { 
+  foreignKey: 'product_id',
+  as: 'product',
+});
+
+
+Product.hasMany(ProductImage, {
+  foreignKey: 'product_id',
+  as: 'images',
+});
+
+module.exports = ProductImage;

@@ -48,7 +48,7 @@ const Usuario = sequelize.define('Usuario', {
     }
 });
 
-// ADIÇÃO IMPORTANTE: Método para comparar a senha fornecida com a senha armazenada
+
 Usuario.prototype.validPassword = async function(password) {
     return await bcrypt.compare(password, this.password);
 };

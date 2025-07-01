@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database');
+const sequelize = require('../config/sequelize');
 const Product = require('./Product'); 
 
 const ProductOption = sequelize.define('ProductOption', {
@@ -7,61 +7,52 @@ const ProductOption = sequelize.define('ProductOption', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false,
   },
   product_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: Product, // Referencia o modelo Product
-      key: 'id',      // A chave primária em Product
+      model: Product, 
+      key: 'id',
     },
-    onDelete: 'CASCADE', 
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE',
   },
   title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   shape: {
-    type: DataTypes.ENUM('square', 'circle'), // Aceita apenas 'square' ou 'circle'
-    allowNull: false,
-    defaultValue: 'square', 
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   radius: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0, 
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   type: {
-    type: DataTypes.ENUM('text', 'color'), // Aceita apenas 'text' ou 'color'
+    type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'text', // Valor padrão 'text'
-  },
-  values: {
-    type: DataTypes.STRING, // Armazena valores separados por vírgula (ex: "P,M,G" ou "#FFF,#000")
-    allowNull: false,
-    defaultValue: 'P,M,G',
-    get() {
-      // Getter para retornar os valores como um array
-      const rawValue = this.getDataValue('values');
-      return rawValue ? rawValue.split(',') : [];
-    },
-    set(value) {
-    
-      this.setDataValue('values', Array.isArray(value) ? value.join(',') : value);
-    },
+
   },
 }, {
-  timestamps: false, 
-  tableName: 'product_options', // Nome da tabela no banco de dados
+  tableName: 'opcoes_produto',
+  timestamps: true,
+  underscored: true,
 });
 
 
-Product.hasMany(ProductOption, {
+ProductOption.belongsTo(Product, { 
   foreignKey: 'product_id',
-  as: 'options', 
+  as: 'product',
 });
-ProductOption.belongsTo(Product, {
+
+
+Product.hasMany(ProductOption, { 
   foreignKey: 'product_id',
+  as: 'options',
 });
+
 
 module.exports = ProductOption;

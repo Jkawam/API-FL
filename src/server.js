@@ -1,13 +1,20 @@
-// src/server.js
+
 
 const app = require('./app');
 const sequelize = require('./config/sequelize');
+
+
 const Usuario = require('./models/Usuario');
-const Categoria = require('./models/Category'); // <--- ADICIONE ESTA LINHA para importar o modelo Categoria
+const Categoria = require('./models/Category');
+const Product = require('./models/Product');
+const ProductImage = require('./models/ProductImage');
+const ProductOption = require('./models/ProductOption');
+const ProductOptionValue = require('./models/ProductOptionValue');
+const ProductCategory = require('./models/ProductCategory');
 
 const PORT = process.env.PORT || 3000;
 
-// Sincroniza o banco de dados e depois inicia o servidor
+
 sequelize.sync({ force: false }) 
 .then(() => {
     console.log('Banco de dados e tabelas sincronizadas!');
