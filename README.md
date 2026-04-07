@@ -2,7 +2,7 @@
 
 API RESTful com Node.js, Express, Sequelize e MySQL. Inclui autenticação JWT e segue arquitetura MVC.
 
-INTEGRANTES: Antônio Mathyas Santos da Silva, Iarlei Ferreira de Barros e Nirla Maria dos Santos
+INTEGRANTES: José kawam Rodrigues da silva ,Antônio Mathyas Santos da Silva, Iarlei Ferreira de Barros e Nirla Maria dos Santos
 
 ---
 
